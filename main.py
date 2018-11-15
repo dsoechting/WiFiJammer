@@ -1,3 +1,3 @@
 import pyrcrack
-import python-nmap
+import nmap
 
