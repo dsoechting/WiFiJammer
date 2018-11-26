@@ -3,6 +3,7 @@ import nmap
 import sys
 import asyncio
 from async_timeout import timeout
+from contextlin import suppress
 
 
 
