@@ -45,7 +45,7 @@ async def deauth():
             while True:
                 await asyncio.sleep(3)
                 for apo in pdump.sorted_aps():
-                    print(type(apo))
+                    print(apo.channel)
 
         #             await attack(interface, apo)
 
@@ -67,6 +67,6 @@ async def printing():
         print(await airmon.list_wifis())
 
 # runNmap('10.202.208.1-30')
-asyncio.run(test(10))
-# asyncio.run(deauth())
+# asyncio.run(test(10))
+asyncio.run(deauth())
 # asyncio.run(printing())
