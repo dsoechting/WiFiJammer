@@ -52,5 +52,5 @@ async def printing():
         print(await airmon.list_wifis())
 
 # runNmap('10.202.208.1-30')
-asyncio.run(deauth())
-# asyncio.run(printing())
+# asyncio.run(deauth())
+asyncio.run(printing())
