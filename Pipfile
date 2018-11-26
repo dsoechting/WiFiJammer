@@ -4,8 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pyrcrack = "*"
 python-nmap = "*"
+pyrcrack = {git = "https://github.com/XayOn/pyrcrack"}
+docopt = "*"
+stringcase = "*"
 
 [dev-packages]
 
