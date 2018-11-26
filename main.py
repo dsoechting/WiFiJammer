@@ -42,24 +42,13 @@ async def deauth():
         print(interface)
         async with pyrcrack.AirodumpNg() as pdump:
             await pdump.run(interface['interface'], write_interval=1)
-            while True:
-                await asyncio.sleep(3)
-                for apo in pdump.sorted_aps():
-                    print(apo.channel)
+            print(pdump.get_results())
+            # while True:
+            #     await asyncio.sleep(3)
+            #     for apo in pdump.sorted_aps():
+            #         print(apo.channel)
 
         #             await attack(interface, apo)
-
-async def test(max_timeout):
-    async with pyrcrack.AirodumpNg() as pdump:
-        with suppress(asyncio.TimeoutError):
-            async with timeout(max_timeout):
-                await pdump.run(sys.argv[1])
-                while True:
-                    await asyncio.sleep(1)
-                    print(pdump.meta)
-        return await pdump.proc.terminate()
-
-
 
 
 async def printing():
@@ -67,6 +56,5 @@ async def printing():
         print(await airmon.list_wifis())
 
 # runNmap('10.202.208.1-30')
-# asyncio.run(test(10))
 asyncio.run(deauth())
 # asyncio.run(printing())
