@@ -42,12 +42,12 @@ async def deauth():
         print(interface)
         async with pyrcrack.AirodumpNg() as pdump:
             await pdump.run(interface['interface'], write_interval=1)
-            await asyncio.sleep(60)
-            print(pdump.get_results())
-            # while True:
-            #     await asyncio.sleep(3)
-            #     for apo in pdump.sorted_aps():
-            #         print(apo.channel)
+            await asyncio.sleep(10)
+            # print(pdump.get_results())
+            while True:
+                await asyncio.sleep(3)
+                for apo in pdump.sorted_aps():
+                    print("hi")
 
         #             await attack(interface, apo)
 
