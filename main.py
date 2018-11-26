@@ -38,11 +38,13 @@ async def deauth():
         interface = (await airmon.list_wifis())[0]['interface']
         interface = (await airmon.set_monitor(interface))[0]
         print(interface)
-        # async with pyrcrack.AirodumpNg() as pdump:
-        #     await pdump.run(interface['interface'], write_interval=1)
-        #     while True:
-        #         await asyncio.sleep(3)
-        #         for apo in pdump.sorted_aps():
+        async with pyrcrack.AirodumpNg() as pdump:
+            await pdump.run(interface['interface'], write_interval=1)
+            while True:
+                await asyncio.sleep(3)
+                for apo in pdump.sorted_aps():
+                    print apo
+
         #             await attack(interface, apo)
 
 async def printing():
