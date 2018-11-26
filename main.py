@@ -2,6 +2,7 @@ import pyrcrack
 import nmap
 import sys
 import asyncio
+from async_timeout import timeout
 
 
 
@@ -47,10 +48,24 @@ async def deauth():
 
         #             await attack(interface, apo)
 
+async def test(max_timeout):
+    async with pyrcrack.AirodumpNg() as pdump:
+        with suppress(asyncio.TimeoutError):
+            async with timeout(max_timeout):
+                await pdump.run(sys.argv[1])
+                while True:
+                    await asyncio.sleep(1)
+                    print(pdump.meta)
+        return await pdump.proc.terminate()
+
+
+
+
 async def printing():
     async with pyrcrack.AirmonZc() as airmon:
         print(await airmon.list_wifis())
 
 # runNmap('10.202.208.1-30')
-asyncio.run(deauth())
+asyncio.run(test(10))
+# asyncio.run(deauth())
 # asyncio.run(printing())
