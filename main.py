@@ -43,7 +43,7 @@ async def deauth():
             while True:
                 await asyncio.sleep(3)
                 for apo in pdump.sorted_aps():
-                    print(apo)
+                    print(str(apo))
 
         #             await attack(interface, apo)
 
