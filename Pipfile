@@ -9,6 +9,8 @@ pyrcrack = {git = "https://github.com/XayOn/pyrcrack"}
 docopt = "*"
 stringcase = "*"
 async-timeout = "*"
+flask = "*"
+flask-cors = "*"
 
 [dev-packages]
 
