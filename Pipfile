@@ -8,6 +8,7 @@ python-nmap = "*"
 pyrcrack = {git = "https://github.com/XayOn/pyrcrack"}
 docopt = "*"
 stringcase = "*"
+async-timeout = "*"
 
 [dev-packages]
 

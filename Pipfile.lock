@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "e1c36c0d14a0f326664362897804ca8409bc3bc32f6eada03030271a1de99f23"
+            "sha256": "dd75007c4a076ce7bd7bb9eea56f7a3293884805138a3e2d2e46889b8949e192"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,14 @@
         ]
     },
     "default": {
+        "async-timeout": {
+            "hashes": [
+                "sha256:0c3c816a028d47f659d6ff5c745cb2acf1f966da1fe5c19c77a70282b25f4c5f",
+                "sha256:4291ca197d287d274d0b6cb5d6f8f8f82d434ed288f962539ff18cc9012f9ea3"
+            ],
+            "index": "pypi",
+            "version": "==3.0.1"
+        },
         "docopt": {
             "hashes": [
                 "sha256:49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"
@@ -29,7 +37,8 @@
         },
         "python-nmap": {
             "hashes": [
-                "sha256:80ba0eb10a52283a54a633f40b5baa9c2ff08675d6621dd089ead942852f5bd3"
+                "sha256:80ba0eb10a52283a54a633f40b5baa9c2ff08675d6621dd089ead942852f5bd3",
+                "sha256:fe416850c5a5036d5cf7b31c8e9ae0ed48f9a8e4496209575a700bb683e74cc9"
             ],
             "index": "pypi",
             "version": "==0.6.1"
